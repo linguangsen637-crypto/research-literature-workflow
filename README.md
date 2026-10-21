@@ -1,24 +1,26 @@
 # Research Literature Workflow
 
-**一个可配置的科研文献与知识管理工作流。** 从文献收集、证据阅读、跨论文综合，到安全保存研究笔记，适用于不同学科与课题。
+**English** | [简体中文](README.zh-CN.md)
 
-Zotero 管理文献身份与元数据，Obsidian 保存知识与个人思考；当前 AI 会话执行分析，Python 脚本处理来源核验、查重、缓存、变更计划和安全写入。
+**A configurable workflow for managing research literature and knowledge.** Collect papers, read with traceable evidence, synthesize findings across studies, and safely organize research notes across disciplines and projects.
 
-领域名称、研究问题、Zotero 库、笔记目录、PDF 来源目录和标签由配置决定。工具没有内置某个课题的标签或论文库。它目前覆盖文献与知识工作，不宣称自动完成实验执行、统计推断、模型训练或所有学科数据库的检索。
+Zotero manages paper identities and metadata. Obsidian stores knowledge and personal notes. The current AI session performs analysis, while Python scripts handle source checks, duplicate detection, caching, change plans, and safe writes.
 
-## 工作过程
+The research domain, questions, Zotero library, note directory, PDF source directories, and tags are configurable. No topic-specific tags or personal paper library are bundled. The current scope is literature and knowledge management; it does not automatically run experiments, perform statistical inference, train models, or search every disciplinary database.
 
-1. **收集 paper-collector**：输入 DOI、arXiv 或本地 PDF，核对来源与版本，查重并生成导入预览。
-2. **分析 paper-analyzer**：按页提取全文，围绕问题阅读，分别记录作者报告、分析推导与研究建议。
-3. **保存 obsidian-writer**：先生成预览，再通过已审阅计划安全写入，保护个人内容。
-4. **综合 research-connector**：围绕研究问题检索候选，比较证据、方法与适用条件。
-5. **维护 research-librarian**：只读报告缺失、重复、版本变化和笔记冲突。
+## Workflow
 
-技能源位于 `workflows/skills/`。这些文件随仓库分发，不会自动安装到个人技能目录；使用自己的代理工具按其发现机制安装或引用。技能执行需要能够读取本机仓库并运行 Python 的环境。
+1. **Collect — paper-collector:** Resolve a DOI, arXiv identifier, or local PDF; check sources and versions, detect duplicates, and prepare an import preview.
+2. **Analyze — paper-analyzer:** Extract PDF text by page, read around a research question, and distinguish author-reported findings, interpretations, and research suggestions.
+3. **Save — obsidian-writer:** Preview changes, then apply a reviewed plan through SafeWriter while protecting personal content.
+4. **Synthesize — research-connector:** Retrieve relevant papers and notes, then compare evidence, methods, and conditions of applicability.
+5. **Maintain — research-librarian:** Report missing content, duplicates, version changes, and note conflicts in read-only mode.
 
-## 开始使用
+Skill sources are in `workflows/skills/`. They are distributed with this repository but are not automatically installed into your personal skill directory. Install or reference them through your agent tool's skill discovery mechanism. Running these skills requires an environment that can read the local repository and execute Python.
 
-当前支持 Linux/POSIX，Python 3.10+；安全写入依赖 fcntl 和 POSIX 文件系统语义。Windows 原生环境尚不支持。PDF 文字提取与页面检查需要系统 Poppler（pdftotext、pdftoppm）。
+## Getting started
+
+The current implementation supports Linux/POSIX with Python 3.10+. Safe writes depend on `fcntl` and POSIX filesystem semantics; native Windows is not supported. PDF extraction and page inspection require the system Poppler tools `pdftotext` and `pdftoppm`.
 
 ```bash
 python3 -m venv .venv
@@ -26,17 +28,17 @@ python3 -m venv .venv
 .venv/bin/python -B scripts/init_workspace.py
 ```
 
-初始化仅创建本地配置，不访问 Zotero、不改 Vault，重复执行保留已有配置。编辑 `config/` 下生成的文件：
+Initialization only creates local configuration files. It does not access Zotero or modify the Vault, and repeated execution preserves existing configuration. Edit the generated files under `config/`:
 
-- `research.yaml`：项目名称、学科、研究问题、允许读取的外部 PDF 目录及可选官方下载域名。
-- `zotero.yaml`：真实本地服务身份、user/group Library 与 Collection 身份。
-- `obsidian.yaml`：已有 Vault 的绝对路径、Vault 内专用研究子目录、独立备份目录。
-- `taxonomy.yaml`：自己的标签与别名；默认空，不预设学科分类。
-- `models.yaml`：分析方式；默认交给当前会话，不预设模型、不触发独立 API 费用。
+- `research.yaml`: Project name, discipline, research question, explicitly allowed external PDF directories, and optional official download hosts.
+- `zotero.yaml`: The actual local server identity, user/group library identity, and collection identity.
+- `obsidian.yaml`: The absolute path to an existing Vault, a dedicated research subdirectory within it, and an independent backup directory.
+- `taxonomy.yaml`: Your own tags and aliases. Empty by default, with no predefined disciplinary taxonomy.
+- `models.yaml`: Analysis settings. The default uses the current session without a preset model or an independent API call.
 
-配置路径必须明确；不自动猜测文献库、扩大可读目录或移动现有数据。`project.domain` 和 `project.question` 是给分析会话读取的项目上下文，不会自动执行领域推断或文献检索。
+Paths must be explicit. The workflow does not guess libraries, expand the configured read scope, or move existing data. `project.domain` and `project.question` provide context for the analysis session; they do not automatically trigger domain inference or literature searches.
 
-完成配置后，从仓库根目录运行：
+After configuration, run these commands from the repository root:
 
 ```bash
 .venv/bin/python -B scripts/research.py audit
@@ -44,44 +46,44 @@ python3 -m venv .venv
 .venv/bin/python -B scripts/research3.py --help
 ```
 
-第一次审计只检查本地配置与文件；加 `--zotero` 才检查本地 API。配置示例中的占位值不能直接使用。仓库可以放在任意受允许的目录，运行时工作区固定为这个仓库根目录。
+The first audit checks local configuration and files. Adding `--zotero` also checks the local API. Replace the example configuration placeholders before use. You may place the repository in any permitted directory; its root remains the fixed workspace for that installation.
 
-## 使用示例
+## Example requests
 
-- “收集这个 DOI 对应的论文，先给我导入预览。”
-- “围绕我的研究问题精读这篇论文，标明已读范围和证据缺口。”
-- “比较这些研究的设计、样本、方法与结论边界。”
-- “将已审阅的分析保存到研究笔记，保留 My Notes。”
-- “只读检查我的文献库与笔记是否存在缺失或冲突。”
+- "Collect the paper for this DOI and show me an import preview first."
+- "Read this paper closely around my research question, stating the reading scope and evidence gaps."
+- "Compare these studies' designs, samples, methods, and limits of inference."
+- "Save the reviewed analysis to my research notes and preserve My Notes."
+- "Check my library and notes for missing content or conflicts without changing anything."
 
-操作入口与数据流见 [工作流说明](docs/workflow.md)。学科内容由研究问题和原文决定：实证论文关注样本、数据和实验协议，理论论文关注假设、定义与推导，定性研究关注材料、取样与解释依据。未报告或不适用的内容明确标出。
+See the [workflow guide](docs/workflow.md) (Chinese) for command entry points and data flow. The research question and source material determine what to examine: samples, data, and protocols for empirical work; assumptions, definitions, and derivations for theoretical work; and materials, sampling, and interpretive evidence for qualitative work. Mark unreported or inapplicable items explicitly.
 
-## 笔记与证据
+## Notes and evidence
 
-默认模板是 `templates/paper-analysis-bilingual.md`：六章中文分析、原文证据与中文对译。它是可调整的默认模板，用户可以指定其他语言或结构。模板里的公式和实验栏不是要求所有研究必须有公式或实验。
+The default template, `templates/paper-analysis-bilingual.md`, uses six sections of Chinese analysis with original-language evidence and Chinese translations. This is a customizable default; users may specify another language or structure. Formula and experiment fields do not require every study to contain formulas or experiments.
 
-论文笔记以完整原文题名保存于配置的研究根目录；文件名的非法字符做最小替换并记录，正文标题和元数据保留原题。同名不同身份停止并报告，不覆盖。已有文件通过稳定身份查找，重命名和迁移需要独立审阅，不自动移动旧笔记。综合文档使用 Topics、Methods 或 Research 子目录。
+Paper notes use the complete original title and are stored directly in the configured research root. Invalid filename characters are minimally replaced and the adjustment is recorded; the body heading and metadata retain the original title. A filename collision between different paper identities stops the operation rather than overwriting a note. Existing notes are located by stable identity. Renaming and migration require separate review; old notes are not moved automatically. Synthesis documents use the `Topics`, `Methods`, or `Research` subdirectories.
 
-论文身份为 `library type + library ID + item key`；PDF 另绑定 SHA256、版本和页码。引用位置检查只验证原文定位，不证明研究结论正确；模型结果在独立复核前保留 Unverified。
+A paper's stable identity is `library type + library ID + item key`. PDF evidence is additionally bound to a SHA256 hash, version, and page number. Quote-location checks establish where evidence appears, not whether a study's conclusions are correct. Model outputs remain `Unverified` until independently reviewed.
 
-## 写入边界
+## Write boundaries
 
-默认只读，后台自动同步关闭。写入需要保存计划、完整批准哈希、版本前置条件、备份和回读。已有笔记需要 reviewed_update 与编辑器静默确认；My Notes 不覆盖，机器区块被修改也报告冲突。文件锁无法协调普通编辑器的全部写入竞争。
+The default is read-only, with background synchronization disabled. Writes require a saved plan, its complete approval hash, version preconditions, backups, and read-back verification. Updating an existing note requires `reviewed_update` and confirmation that the editor is quiescent. `My Notes` is preserved, and edits to managed blocks are reported as conflicts. File locks cannot coordinate all concurrent writes from ordinary editors.
 
-Zotero 仅使用 `http://127.0.0.1:23119/api/`，拒绝重定向，不读取 SQLite。首次写入走官方授权对话框。重复条目仅生成审阅包，实际合并使用 Zotero 原生功能并逐案确认。不得删除来模拟合并。
+Zotero access is restricted to `http://127.0.0.1:23119/api/`. Redirects are rejected, and SQLite is not accessed. Initial write authorization uses the official dialog. Duplicate handling produces a review package; actual merging uses Zotero's native feature with confirmation for each case. Deletion must not be used to simulate a merge.
 
-更多约束见 [安全与恢复](docs/safety.md)。仓库不会安装沙盒权限、修改系统安全配置、添加登录自启动或创建定时任务。
+See [safety and recovery](docs/safety.md) (Chinese) for further constraints. The repository does not install sandbox permissions, alter system security settings, add login startup entries, or create scheduled tasks.
 
-## 验证与限制
+## Validation and limitations
 
 ```bash
 .venv/bin/python -B -m unittest discover -s tests -v
 ```
 
-测试只使用临时目录和模拟接口。配置可迁移性另有离线端到端检查；这些都不代表新机器上真实 Zotero 写入、Vault 更新或恢复已验收。
+Tests use temporary directories and mocked interfaces. Configuration portability also has an offline end-to-end check. These checks do not establish that real Zotero writes, Vault updates, or recovery have been validated on a new machine.
 
-目前元数据解析支持 DOI/Crossref 与 arXiv，本地 PDF 通过 Poppler 解析；其他来源、无文字层扫描件、OCR 和复杂公式需要另行处理。新增官方下载域名须在 sources.https_hosts 显式配置；HTTPS、域名与公网地址检查仍生效，不绕过访问限制。元数据下载使用标准代理环境变量，不预设个人代理端口。跨学科可配置不代表覆盖了所有出版商与数据库。
+Metadata resolution currently supports DOI/Crossref and arXiv. Local PDFs are parsed with Poppler. Other sources, scanned documents without a text layer, OCR, and complex formulas need separate handling. Additional official download hosts must be explicitly configured in `sources.https_hosts`; HTTPS, hostname, and public-address checks remain enforced. Access restrictions are not bypassed. Metadata downloads use standard proxy environment variables without a preset personal proxy port. Cross-disciplinary configuration does not imply support for every publisher or database.
 
-独立 analyze-api 是未实测的可选接口，需显式配置模型、凭据及调用授权；默认不调用。analysis-note-plan 当前仍输出简略证据段，不能直接当作完整六章最终分析。后台同步与定时维护不自动启用。
+The optional `analyze-api` interface has not been live-tested. It requires explicit model configuration, credentials, and permission to make a call; it is not used by default. `analysis-note-plan` currently renders a brief evidence section and must not be treated as a complete six-section final analysis. Background synchronization and scheduled maintenance are not enabled automatically.
 
-仓库不包含论文全文、私人笔记、真实库标识、凭据、缓存或个人验收记录。本地配置由 `.gitignore` 排除，上传前仍应审阅实际提交清单。
+The repository excludes paper full text, private notes, real library identifiers, credentials, caches, and personal acceptance logs. Local configuration files are excluded by `.gitignore`; review the actual staged file list before uploading.
