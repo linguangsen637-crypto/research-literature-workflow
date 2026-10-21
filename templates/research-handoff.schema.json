@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Research Workflow structured handoff",
+  "type": "object",
+  "required": ["task_id", "paper_identity", "sources", "requirements", "results", "verification_status"],
+  "additionalProperties": false,
+  "properties": {
+    "task_id": {"type": "string", "minLength": 1},
+    "paper_identity": {
+      "type": "object",
+      "required": ["library_type", "library_id", "item_key"],
+      "properties": {
+        "library_type": {"enum": ["user", "group"]},
+        "library_id": {"type": "integer", "minimum": 1},
+        "item_key": {"type": "string", "pattern": "^[23456789ABCDEFGHIJKLMNPQRSTUVWXYZ]{8}$"}
+      },
+      "additionalProperties": false
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source_id", "pdf_sha256", "version", "location"],
+        "properties": {
+          "source_id": {"type": "string"},
+          "pdf_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "version": {"type": "string"},
+          "location": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "requirements": {"type": "object"},
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["claim", "kind", "verification_status", "evidence"],
+        "properties": {
+          "claim": {"type": "string"},
+          "kind": {"enum": ["paper_fact", "reasoned_interpretation", "ai_suggestion"]},
+          "verification_status": {"enum": ["Unverified", "Verified"]},
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["source_id", "pdf_page", "section", "location"],
+              "properties": {
+                "source_id": {"type": "string"},
+                "pdf_page": {"type": "integer", "minimum": 1},
+                "section": {"type": "string"},
+                "location": {"type": "string"}
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "verification_status": {"enum": ["Unverified", "PartiallyVerified", "Verified"]}
+  }
+}

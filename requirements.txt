@@ -1,0 +1,4 @@
+# Already available in the audited Python environment. No installation performed.
+PyYAML>=6,<7
+jsonschema>=4,<5
+# System Poppler pdftotext/pdftoppm are used for extraction/review. No PDF package installation required.

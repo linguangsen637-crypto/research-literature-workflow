@@ -1,0 +1,11 @@
+analysis:
+  transport: structured_handoff
+  model: null
+  api_verified: false
+  structured_handoff_verified: false
+  evidence_location_validation: true
+  default_level: 2
+  require_source_evidence: true
+usage:
+  missing_value: Unavailable
+  estimates_must_be_labelled: true

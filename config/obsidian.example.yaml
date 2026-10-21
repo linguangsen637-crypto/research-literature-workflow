@@ -1,0 +1,13 @@
+vault:
+  path: /REPLACE_WITH_ABSOLUTE_VAULT_PATH
+research:
+  root: Literature
+sync:
+  direction: zotero_to_obsidian
+  overwrite_manual_notes: false
+  create_backup: true
+  duplicate_check: true
+  conflict_detection: true
+  writes_enabled: false
+backup:
+  path: /REPLACE_WITH_INDEPENDENT_BACKUP_PATH

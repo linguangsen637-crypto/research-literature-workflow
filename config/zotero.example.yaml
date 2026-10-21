@@ -1,0 +1,12 @@
+api:
+  base_url: http://127.0.0.1:23119/api/
+  mode: read_only
+  expected_server_id: REPLACE_WITH_LOCAL_SERVER_ID
+library:
+  type: user
+  id: 0
+collection:
+  name: REPLACE_WITH_COLLECTION_NAME
+  key: REPLACE_WITH_COLLECTION_KEY
+credentials:
+  storage: environment_or_secure_store

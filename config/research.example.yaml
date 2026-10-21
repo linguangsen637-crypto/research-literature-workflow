@@ -1,0 +1,11 @@
+project:
+  name: My Research
+  domain: general
+  question: ""
+sources:
+  # Optional absolute read-only directories, e.g. your Zotero storage directory.
+  # Only add directories you intend the workflow to read.
+  pdf_roots: []
+  # Optional exact official publisher/repository hosts; no wildcards or IPs.
+  # The built-in resolver hosts are api.crossref.org, arxiv.org, export.arxiv.org.
+  https_hosts: []
